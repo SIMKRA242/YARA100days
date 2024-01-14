@@ -1,0 +1,19 @@
+rule connection_proxy_linux_hiatusrat {
+ meta:
+    author = "Simone Kraus"
+    description = "Detects setting proxy configuration as IOC for the HiatusRAT."
+    reference = " https://gridinsoft.com/blogs/hiatusrat-attacks-taiwan-us-military/"
+    tags = "attack.defense_evasion, attack.t1090"
+    falsepositives = "Legitimate admin use"
+    severity = "high"
+    created = "2023-08-26"
+    product = "linux"
+    category = "process_creation"
+
+  events:
+    (re.regex($selection.target.process.command_line, `.*http_proxy=.*`) nocase or 
+    re.regex($selection.target.process.command_line, `.*https_proxy=.*`) nocase)
+
+  condition:
+    $selection
+}
