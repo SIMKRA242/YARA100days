@@ -1,0 +1,27 @@
+rule dll_names_used_by_svr_for_graphicalproton_backdoor {
+ meta:
+    description = "Hunts for known SVR-specific DLL names.."
+    created = "2024-01-14"
+    category = "image_load"
+    product = "windows"
+
+  events:
+    (re.regex($selection.target.process.file.full_path, `.*AclNumsInvertHost\.dll`) nocase or 
+    re.regex($selection.target.process.file.full_path, `.*ModeBitmapNumericAnimate\.dll`) nocase or 
+    re.regex($selection.target.process.file.full_path, `.*UnregisterAncestorAppendAuto\.dll`) nocase or 
+    re.regex($selection.target.process.file.full_path, `.*DeregisterSeekUsers\.dll`) nocase or 
+    re.regex($selection.target.process.file.full_path, `.*ScrollbarHandleGet\.dll`) nocase or 
+    re.regex($selection.target.process.file.full_path, `.*PerformanceCaptionApi\.dll`) nocase or 
+    re.regex($selection.target.process.file.full_path, `.*WowIcmpRemoveReg\.dll`) nocase or 
+    re.regex($selection.target.process.file.full_path, `.*BlendMonitorStringBuild\.dll`) nocase or 
+    re.regex($selection.target.process.file.full_path, `.*HandleFrequencyAll\.dll`) nocase or 
+    re.regex($selection.target.process.file.full_path, `.*HardSwapColor\.dll`) nocase or 
+    re.regex($selection.target.process.file.full_path, `.*LengthInMemoryActivate\.dll`) nocase or 
+    re.regex($selection.target.process.file.full_path, `.*ParametersNamesPopup\.dll`) nocase or 
+    re.regex($selection.target.process.file.full_path, `.*ModeFolderSignMove\.dll`) nocase or 
+    re.regex($selection.target.process.file.full_path, `.*ChildPaletteConnected\.dll`) nocase or 
+    re.regex($selection.target.process.file.full_path, `.*AddressResourcesSpec\.dll`) nocase)
+
+  condition:
+    $selection
+}
