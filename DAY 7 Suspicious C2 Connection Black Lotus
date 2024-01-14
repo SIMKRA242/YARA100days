@@ -3,8 +3,6 @@ rule suspicious_c2_connection_black_lotus {
     author = "Simone Kraus"
     description = "Detects Black Lotus downloader function connecting to the C2 server."
     reference = " https://www.microsoft.com/en-us/security/blog/2023/04/11/guidance-for-investigating-attacks-using-cve-2022-21894-the-blacklotus-campaign/"
-    sigma_id = "0088645c-9ef5-486a-a441-5a356365a893"
-    status = "experimental"
     tags = "attack.defense_evasion, attack.command_and_control"
     falsepositives = "Non"
     severity = "high"
