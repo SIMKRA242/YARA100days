@@ -1,0 +1,21 @@
+rule apt28_powershell_test_netconnection_ldap_intrusion {
+ meta:
+    author = "Simone Kraus"
+    description = "Detects execution of PowerShell trying to connect to the victim via port 389."
+    reference = "https://cert.gov.ua/article/5702579?fbclid=IwAR3XlwoRXJ793jQf96FKqvcTE6rgQtQri--9_QnzH70ceeJtE2w6OcPxL-g"
+    version = "0.01"
+    sigma_id = "d0158537-bf38-407a-a0f0-c5600e287013"
+    status = "experimental"
+    tags = "attack.execution, attack.attack.t1059.001"
+    severity = "high"
+    created = "2023-09-06"
+    category = "process_creation"
+    product = "windows"
+
+  events:
+    (re.regex($selection.principal.process.file.full_path, `.*\\powershell\.exe`) nocase) and 
+    (re.regex($selection.target.process.command_line, `.*Test-NetConnection -ComputerName %IP% -Port 389.*`) nocase)
+
+  condition:
+    $selection
+}
