@@ -3,7 +3,6 @@ rule suspicious_file_creation_in_public_folder {
     author = "BlackBerry Threat Research and Intelligence Team"
     description = "Detect the creation of .dll, .dll0, .exe and .conf files in the users\\public\\libraries folder.."
     reference = " https://blogs.blackberry.com/en/2022/10/unattributed-romcom-threat-actor-spoofing-popular-apps-now-hits-ukrainian-militaries"
-    status = "experimental"
     falsepositives = "Legitimate file creation"
     severity = "high"
     created = "2023-05-18"
