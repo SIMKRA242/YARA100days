@@ -3,8 +3,6 @@ rule lolbas_chinese_apt_creating_a_7z_archive_in_temp {
     author = "SIMKRA, @simonekrausora1"
     description = "Detects the suspicious creation of a 7z achrive into the c:\\windows\\temp\\ folder.."
     reference = "https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-144a"
-    sigma_id = "805be6dd-20d2-42dc-b70a-b058ae83002b"
-    status = "experimental"
     tags = "attack.attack.collection, attack.attack.attack.t1560"
     falsepositives = "not known"
     severity = "high"
