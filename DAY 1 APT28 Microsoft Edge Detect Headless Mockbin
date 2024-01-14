@@ -3,8 +3,6 @@ rule apt28_microsoft_edge_detect_headless_mockbin {
     author = "Simone Kraus"
     description = "Detects execution a batch file and of mockbin and msedge with the parameter \"--headless=new\" as IOC of APT28."
     reference = "https://cert.gov.ua/article/5702579?fbclid=IwAR3XlwoRXJ793jQf96FKqvcTE6rgQtQr--9_QnzH70ceeJtE2w6OcPx-g"
-    sigma_id = "f7f2074b-e635-4661-95ca-0d809d94cb20"
-    status = "experimental"
     tags = "attack.execution, attack.attack.t1059.003"
     severity = "high"
     created = "2023-09-06"
