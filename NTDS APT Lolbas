@@ -1,0 +1,30 @@
+rule VIP_lolbas_chinese_apt_credential_dumping_to_admin_localhost {
+ meta:
+    author = "SIMKRA, @simonekrausora1"
+    description = "Detects the credential dumping, creating a dump in the ADMIN tmp"
+    type = "detection"
+    sigma_id = "508fa282-c63e-4382-817a-4704df88aa3b"
+    status = "experimental"
+    tags = "attack.credential_access, attack.attack.defense_evasion, attack.t1003.003, attack.t1036"
+    falsepositives = "not known"
+    severity = "critical"
+    created = "2024-05-03"
+    category = "process_creation"
+    platform = "Windows"
+
+  events:
+    ((re.regex($selection_img.target.process.file.full_path, `.*\\cmd\.exe`) nocase) or 
+    ($selection_img.target.file.full_path = "cmd.exe" nocase)) and 
+    re.regex($selection_img.target.process.command_line, `.*\/c wmic process call create.*`) nocase and 
+    (re.regex($selection_img.target.process.command_line, `.*\"cmd\.exe \/c mkdir C:\\Windows\\Temp\\tmp.*`) nocase or 
+    re.regex($selection_img.target.process.command_line, `.*& ntdsutil \\\"ac i ntds\\\" ifm \\\"create full C:\\Windows\\Temp\\tmp\\\" 1\> \\\\127\.0\.0\.1\\ADMIN\$\\ 2\>&1.*`) nocase)
+
+ outcome:
+    $risk_score = 90
+    $mitre_attack_tactic = "Credential Access"
+    $mitre_attack_technique = "OS Credential Dumping: NTDS"
+    $mitre_attack_technique_id = "T1003.003"
+    
+  condition:
+    $selection_img
+}
