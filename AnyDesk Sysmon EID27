@@ -1,0 +1,44 @@
+
+//* Detects the attempt to install AnyDesk and likely crash with the command line --crash-handler, when Sysmon with ID 27 is implemented
+rule AnyDesk_execution_installation {
+
+  meta:
+    author = "SIMKRA"
+    description = "Detects the installation of AnyDesk, which is often used by attackers after exploitation to move laterally"
+    type = "detection"
+    data_source = "microsoft sysmon, microsoft windows events"
+    mitre_attack_tactic = "Command and Control"
+    mitre_attack_technique = "Ingress Tool Transfer"
+    mitre_attack_url = "https://attack.mitre.org/techniques/T1105/"
+    mitre_attack_version = "v15.0"
+    platform = "Windows"
+    severity = "High"
+    priority = "High"
+
+  events:
+    $process.metadata.event_type = "PROCESS_LAUNCH"
+    $process.target.process.command_line = /(.*\/)?AnyDesk(.exe)?/ nocase
+
+  outcome:
+    $risk_score = 80
+    $mitre_attack_tactic = "Command and Control"
+    $mitre_attack_technique = "Ingress Tool Transfer"
+    $mitre_attack_technique_id = "T1105"
+    // added to populate alert graph with additional context
+    $principal_hostname = $process.principal.hostname
+    $principal_process_pid = $process.principal.process.pid
+    $principal_process_command_line = $process.principal.process.command_line
+    $principal_process_file_sha256 = $process.principal.process.file.sha256
+    $principal_process_file_full_path = $process.principal.process.file.full_path
+    $principal_process_product_specfic_process_id = $process.principal.process.product_specific_process_id
+    $principal_process_parent_process_product_specfic_process_id = $process.principal.process.parent_process.product_specific_process_id
+    $target_process_pid = $process.target.process.pid
+    $target_process_command_line = $process.target.process.command_line
+    $target_process_file_sha256 = $process.target.process.file.sha256
+    $target_process_file_full_path = $process.target.process.file.full_path
+    $target_process_product_specfic_process_id = $process.target.process.product_specific_process_id
+    $principal_user_userid = $process.principal.user.userid
+
+  condition:
+    $process
+}
